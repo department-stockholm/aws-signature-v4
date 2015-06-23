@@ -58,13 +58,13 @@ exports.createSignature = function(secret, time, region, service, stringToSign) 
   return hmac(h4, stringToSign, 'hex');
 };
 
-exports.createPresignedS3URL = function(bucket, name, options) {
+exports.createPresignedS3URL = function(name, options) {
   options = options || {};
   options.method = options.method || 'GET';
   options.bucket = options.bucket || process.env.AWS_S3_BUCKET;
   return exports.createPresignedURL(
     options.method,
-    bucket + '.s3.amazonaws.com',
+    options.bucket + '.s3.amazonaws.com',
     '/' + name,
     's3',
     'UNSIGNED-PAYLOAD',

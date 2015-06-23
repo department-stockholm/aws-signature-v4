@@ -27,9 +27,10 @@ describe('aws-signature-v4', function() {
     canonicalRequest
   );
   var signature = aws.createSignature(secretKey, exampleTime, 'us-east-1', 's3', stringToSign);
-  var presignedURL = aws.createPresignedS3URL('examplebucket', 'test.txt', {
+  var presignedURL = aws.createPresignedS3URL('test.txt', {
     key: accessKey,
     secret: secretKey,
+    bucket: 'examplebucket',
     timestamp: exampleTime
   });
 
