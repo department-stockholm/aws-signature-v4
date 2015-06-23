@@ -33,6 +33,16 @@ var url = v4.createPresignedS3URL(req.query.name, {
 });
 ```
 
+# Install
+
+It's available on [npm](https://npmjs.org) so you can simply install it with:
+
+```
+npm install --save aws-signature-v4
+```
+
+
+# API
 
 ## AWS ENV vars
 
@@ -42,8 +52,6 @@ I've tried to use the "official" ENV vars by default in this module. The ones th
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_S3_BUCKET` (not really official, but useful)
 
-
-# API
 
 ## Public API
 
