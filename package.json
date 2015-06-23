@@ -1,7 +1,7 @@
 {
   "name": "aws-signature-v4",
   "version": "1.0.0",
-  "description": "Generate an AWS V4 Signature and Signed URLs",
+  "description": "Generate AWS V4 Signatures and Signed URLs",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
