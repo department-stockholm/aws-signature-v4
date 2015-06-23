@@ -51,7 +51,7 @@ I've tried to use the "official" ENV vars by default in this module. The ones th
 
 Returns a [query-signed AWS URL](sign-query-docs) with some S3 service specifics.
 
-Options may be any of [createPresignedURL](#createPresignedURL)s options plus:
+Options may be any of [createPresignedURL](#createpresignedurlmethod-host-path-service-payload-options)s options plus:
 
 - `method` (defaults to `"GET"`)
 - `bucket` (defaults to `process.env.AWS_S3_BUCKET`)
