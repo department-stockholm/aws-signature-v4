@@ -74,7 +74,7 @@ Returns a [query-signed AWS URL](sign-query-docs).
 - `protocol` (defaults to `"https"`)
 - `headers` (defaults to `{}`)
 - `timestamp` (defaults to `Date.now()`)
-- `region` (defaults to `"us-east-1"`)
+- `region` (defaults to `process.env.AWS_REGION || "us-east-1"`)
 - `expires` (defaults to `86400`, or 24 hours)
 - `headers` (defaults to `{}`)
 
