@@ -50,6 +50,7 @@ I've tried to use the "official" ENV vars by default in this module. The ones th
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
 - `AWS_S3_BUCKET` (not really official, but useful)
 
 

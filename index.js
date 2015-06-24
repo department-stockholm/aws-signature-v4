@@ -79,7 +79,7 @@ exports.createPresignedURL = function(method, host, path, service, payload, opti
   options.protocol = options.protocol || 'https';
   options.headers = options.headers || {};
   options.timestamp = options.timestamp || Date.now();
-  options.region = options.region || 'us-east-1';
+  options.region = options.region || process.env.AWS_REGION || 'us-east-1';
   options.expires = options.expires || 86400; // 24 hours
   options.headers = options.headers || {};
 
