@@ -86,13 +86,13 @@ exports.createPresignedURL = function(method, host, path, service, payload, opti
   // host is required
   options.headers.Host = host;
 
-  var query = {
-    'X-Amz-Algorithm': 'AWS4-HMAC-SHA256',
-    'X-Amz-Credential': options.key + '/' + exports.createCredentialScope(options.timestamp, options.region, service),
-    'X-Amz-Date': toTime(options.timestamp),
-    'X-Amz-Expires': options.expires,
-    'X-Amz-SignedHeaders': exports.createSignedHeaders(options.headers)
-  };
+  var query = options.query ? querystring.parse(options.query) : {};
+  query['X-Amz-Algorithm'] = 'AWS4-HMAC-SHA256';
+  query['X-Amz-Credential'] = options.key + '/' + exports.createCredentialScope(options.timestamp, options.region, service);
+  query['X-Amz-Date'] = toTime(options.timestamp);
+  query['X-Amz-Expires'] = options.expires;
+  query['X-Amz-SignedHeaders'] = exports.createSignedHeaders(options.headers);
+
   var canonicalRequest = exports.createCanonicalRequest(method, path, query, options.headers, payload);
   var stringToSign = exports.createStringToSign(options.timestamp, options.region, service, canonicalRequest);
   var signature = exports.createSignature(options.secret, options.timestamp, options.region, service, stringToSign);
