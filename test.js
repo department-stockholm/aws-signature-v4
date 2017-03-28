@@ -65,4 +65,14 @@ describe('aws-signature-v4', function() {
     assert.equal(presignedURL, 'https://examplebucket.s3.amazonaws.com/test.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20130524T000000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=aeeed9bbccd4d02ee5c0109b86d86835f995330da4c265957d157751f604d404');
   });
 
+  it('should generate a presigned url with query params', function() {
+    var presignedUrlWithQuery = aws.createPresignedS3URL('test.txt', {
+      key: accessKey,
+      secret: secretKey,
+      bucket: 'examplebucket',
+      timestamp: exampleTime,
+      query: 'key=value&key2=value2'
+    });
+    assert.equal(presignedUrlWithQuery, 'https://examplebucket.s3.amazonaws.com/test.txt?key=value&key2=value2&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20130524T000000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=9441992768076e59f7162b6a5dd3782cddf270398d8508408386af62eed5570c');
+  });
 });
