@@ -1,6 +1,6 @@
 {
   "name": "aws-signature-v4",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Generate AWS V4 Signatures and Signed URLs",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,13 @@
     "prepare": "release"
   },
   "repository": "department-stockholm/aws-signature-v4",
-  "keywords": ["aws", "signature", "signed", "url", "v4"],
+  "keywords": [
+    "aws",
+    "signature",
+    "signed",
+    "url",
+    "v4"
+  ],
   "author": "Robert Sköld <robert@department.se>",
   "license": "MIT",
   "devDependencies": {
