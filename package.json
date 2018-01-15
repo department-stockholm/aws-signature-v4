@@ -6,17 +6,8 @@
   "scripts": {
     "test": "mocha"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://git.department.se/department/aws-signature-v4.git"
-  },
-  "keywords": [
-    "aws",
-    "signature",
-    "signed",
-    "url",
-    "v4"
-  ],
+  "repository": "department-stockholm/aws-signature-v4",
+  "keywords": ["aws", "signature", "signed", "url", "v4"],
   "author": "Robert Sköld <robert@department.se>",
   "license": "MIT",
   "devDependencies": {
