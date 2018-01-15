@@ -4,13 +4,15 @@
   "description": "Generate AWS V4 Signatures and Signed URLs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prepublish": "release"
   },
   "repository": "department-stockholm/aws-signature-v4",
   "keywords": ["aws", "signature", "signed", "url", "v4"],
   "author": "Robert Sköld <robert@department.se>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "release": "^3.1.4"
   }
 }
