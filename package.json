@@ -11,7 +11,6 @@
   "author": "Robert Sköld <robert@department.se>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.2.5",
-    "release": "^3.1.4"
+    "mocha": "^2.2.5"
   }
 }
