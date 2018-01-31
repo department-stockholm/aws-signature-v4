@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/department-stockholm/aws-signature-v4.svg?branch=master)](https://travis-ci.org/department-stockholm/aws-signature-v4)
+[![npm version](https://badge.fury.io/js/aws-signature-v4.svg)](https://badge.fury.io/js/aws-signature-v4)
+
 # AWS Signature V4
 
 Generating the "new" AWS V4 signatures can be a bit of a pain.
