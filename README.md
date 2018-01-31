@@ -1,5 +1,4 @@
-AWS Signature V4
-================
+# AWS Signature V4
 
 Generating the "new" AWS V4 signatures can be a bit of a pain.
 
@@ -41,18 +40,17 @@ It's available on [npm](https://npmjs.org) so you can simply install it with:
 npm install --save aws-signature-v4
 ```
 
-
 # API
 
 ## AWS ENV vars
 
 I've tried to use the "official" ENV vars by default in this module. The ones they use in their own SDK:
 
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `AWS_REGION`
-- `AWS_S3_BUCKET` (not really official, but useful)
-
+* `AWS_ACCESS_KEY_ID`
+* `AWS_SECRET_ACCESS_KEY`
+* `AWS_REGION`
+* `AWS_SESSION_TOKEN`
+* `AWS_S3_BUCKET` (not really official, but useful)
 
 ## Public API
 
@@ -62,22 +60,23 @@ Returns a [query-signed AWS URL][sign-query-docs] with some S3 service specifics
 
 Options may be any of [createPresignedURL](#createpresignedurlmethod-host-path-service-payload-options)s options plus:
 
-- `method` (defaults to `"GET"`)
-- `bucket` (defaults to `process.env.AWS_S3_BUCKET`)
+* `method` (defaults to `"GET"`)
+* `bucket` (defaults to `process.env.AWS_S3_BUCKET`)
 
 ### createPresignedURL(method, host, path, service, payload[, options])
 
 Returns a [query-signed AWS URL][sign-query-docs].
 
-- `key` (defaults to `process.env.AWS_ACCESS_KEY_ID`)
-- `secret` (defaults to `process.env.AWS_SECRET_ACCESS_KEY`)
-- `protocol` (defaults to `"https"`)
-- `headers` (defaults to `{}`)
-- `timestamp` (defaults to `Date.now()`)
-- `region` (defaults to `process.env.AWS_REGION || "us-east-1"`)
-- `expires` (defaults to `86400`, or 24 hours)
-- `headers` (defaults to `{}`)
-- `query` Optional query parameters attached to the AWS API call (defaults to none)
+* `key` (defaults to `process.env.AWS_ACCESS_KEY_ID`)
+* `secret` (defaults to `process.env.AWS_SECRET_ACCESS_KEY`)
+* `sessionToken` (defaults to `process.env.AWS_SESSION_TOKEN`)
+* `protocol` (defaults to `"https"`)
+* `headers` (defaults to `{}`)
+* `timestamp` (defaults to `Date.now()`)
+* `region` (defaults to `process.env.AWS_REGION || "us-east-1"`)
+* `expires` (defaults to `86400`, or 24 hours)
+* `headers` (defaults to `{}`)
+* `query` Optional query parameters attached to the AWS API call (defaults to none)
 
 ## Internal API (but still available)
 
@@ -108,7 +107,6 @@ Returns the `StringToSign` as defined by [query-signed AWS URL docs][sign-query-
 ### createSignature(secret, time, region, service, stringToSign)
 
 Returns the `Signature` as defined by [query-signed AWS URL docs][sign-query-docs].
-
 
 [sign-query-docs]: http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html
 [s3-component]: https://github.com/component/s3/tree/0.3.x
