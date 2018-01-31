@@ -76,6 +76,7 @@ exports.createPresignedURL = function(method, host, path, service, payload, opti
   options = options || {};
   options.key = options.key || process.env.AWS_ACCESS_KEY_ID;
   options.secret = options.secret || process.env.AWS_SECRET_ACCESS_KEY;
+  options.sessionToken = options.sessionToken || process.env.AWS_SESSION_TOKEN;
   options.protocol = options.protocol || 'https';
   options.headers = options.headers || {};
   options.timestamp = options.timestamp || Date.now();
@@ -92,6 +93,9 @@ exports.createPresignedURL = function(method, host, path, service, payload, opti
   query['X-Amz-Date'] = toTime(options.timestamp);
   query['X-Amz-Expires'] = options.expires;
   query['X-Amz-SignedHeaders'] = exports.createSignedHeaders(options.headers);
+  if (options.sessionToken) {
+    query['X-Amz-Security-Token'] = options.sessionToken;
+  }
 
   var canonicalRequest = exports.createCanonicalRequest(method, path, query, options.headers, payload);
   var stringToSign = exports.createStringToSign(options.timestamp, options.region, service, canonicalRequest);
