@@ -1,6 +1,6 @@
 {
   "name": "aws-signature-v4",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Generate AWS V4 Signatures and Signed URLs",
   "main": "index.js",
   "scripts": {
