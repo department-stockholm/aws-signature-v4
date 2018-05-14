@@ -78,7 +78,6 @@ Returns a [query-signed AWS URL][sign-query-docs].
 * `timestamp` (defaults to `Date.now()`)
 * `region` (defaults to `process.env.AWS_REGION || "us-east-1"`)
 * `expires` (defaults to `86400`, or 24 hours)
-* `headers` (defaults to `{}`)
 * `query` Optional query parameters attached to the AWS API call (defaults to none)
 
 ## Internal API (but still available)
