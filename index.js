@@ -136,6 +136,7 @@ exports.createPresignedS3URL = function(name, options) {
   options = options || {};
   options.method = options.method || "GET";
   options.bucket = options.bucket || process.env.AWS_S3_BUCKET;
+  options.signSessionToken = true;
   return exports.createPresignedURL(
     options.method,
     options.bucket + ".s3.amazonaws.com",
@@ -163,6 +164,7 @@ exports.createPresignedURL = function(
   options.region = options.region || process.env.AWS_REGION || "us-east-1";
   options.expires = options.expires || 86400; // 24 hours
   options.headers = options.headers || {};
+  options.signSessionToken = options.signSessionToken || false;
 
   // host is required
   options.headers.Host = host;
@@ -176,6 +178,12 @@ exports.createPresignedURL = function(
   query["X-Amz-Date"] = toTime(options.timestamp);
   query["X-Amz-Expires"] = options.expires;
   query["X-Amz-SignedHeaders"] = exports.createSignedHeaders(options.headers);
+
+  // when a session token must be "signed" into the canonical request
+  // (needed for some services, such as s3)
+  if (options.sessionToken && options.signSessionToken) {
+    query["X-Amz-Security-Token"] = options.sessionToken;
+  }
 
   var canonicalRequest = exports.createCanonicalRequest(
     method,
@@ -199,8 +207,12 @@ exports.createPresignedURL = function(
   );
   query["X-Amz-Signature"] = signature;
 
-  if (options.sessionToken) {
+  // when a session token must NOT be "signed" into the canonical request
+  // (needed for some services, such as IoT)
+  if (options.sessionToken && !options.signSessionToken) {
     query["X-Amz-Security-Token"] = options.sessionToken;
+  } else {
+    delete query["X-Amz-Security-Token"];
   }
 
   return (
