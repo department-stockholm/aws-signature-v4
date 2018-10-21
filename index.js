@@ -178,7 +178,7 @@ exports.createPresignedURL = function(
   query["X-Amz-Date"] = toTime(options.timestamp);
   query["X-Amz-Expires"] = options.expires;
   query["X-Amz-SignedHeaders"] = exports.createSignedHeaders(options.headers);
-  
+
   // when a session token must be "signed" into the canonical request
   // (needed for some services, such as s3)
   if (options.sessionToken && options.signSessionToken) {
@@ -206,11 +206,13 @@ exports.createPresignedURL = function(
     stringToSign
   );
   query["X-Amz-Signature"] = signature;
-  
+
   // when a session token must NOT be "signed" into the canonical request
   // (needed for some services, such as IoT)
   if (options.sessionToken && !options.signSessionToken) {
     query["X-Amz-Security-Token"] = options.sessionToken;
+  } else {
+    delete query["X-Amz-Security-Token"];
   }
 
   return (
