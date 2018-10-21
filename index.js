@@ -176,6 +176,9 @@ exports.createPresignedURL = function(
   query["X-Amz-Date"] = toTime(options.timestamp);
   query["X-Amz-Expires"] = options.expires;
   query["X-Amz-SignedHeaders"] = exports.createSignedHeaders(options.headers);
+  if (options.sessionToken) {
+    query["X-Amz-Security-Token"] = options.sessionToken;
+  }
 
   var canonicalRequest = exports.createCanonicalRequest(
     method,
@@ -198,10 +201,6 @@ exports.createPresignedURL = function(
     stringToSign
   );
   query["X-Amz-Signature"] = signature;
-
-  if (options.sessionToken) {
-    query["X-Amz-Security-Token"] = options.sessionToken;
-  }
 
   return (
     options.protocol + "://" + host + path + "?" + querystring.stringify(query)
