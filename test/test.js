@@ -104,15 +104,18 @@ describe("aws-signature-v4", function() {
   });
 
   it("should generate a presigned s3 url with security token, and security token should not be the last parameter", function() {
-    var presignedUrlWithSecurityToken = aws.createPresignedS3URL("test.txt", {
-      key: accessKey,
-      secret: secretKey,
-      bucket: "examplebucket",
-      timestamp: exampleTime,
-      sessionToken: sessionToken
-    });
+    var presignedUrlWithoutSecurityToken = aws.createPresignedS3URL(
+      "test.txt",
+      {
+        key: accessKey,
+        secret: secretKey,
+        bucket: "examplebucket",
+        timestamp: exampleTime,
+        sessionToken: sessionToken
+      }
+    );
     assert.equal(
-      presignedUrlWithSecurityToken,
+      presignedUrlWithoutSecurityToken,
       "https://examplebucket.s3.amazonaws.com/test.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20130524T000000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=12abb65becb4cfbac48bfdd9eb3178408ff6fd7f470505f4baf3dcad7088253f"
     );
   });
@@ -137,4 +140,31 @@ describe("aws-signature-v4", function() {
       "wss://example.iot.us-east-1.amazonaws.com/mqtt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fiotdevicegateway%2Faws4_request&X-Amz-Date=20130524T000000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=3ec863617e7e6afa53fc5669c7db4983300818ddc18e72db53c6408d00f60d94&X-Amz-Security-Token=EXAMPLESESSION"
     );
   });
+
+  if (process.env.MQTT_ENDPOINT) {
+    // test this with:
+    // AWS_REGION=<region> AWS_ACCESS_KEY_ID=<key> AWS_SECRET_ACCESS_KEY=<secret> AWS_SESSION_TOKEN=<token> MQTT_ENDPOINT=<endpoint> yarn test -f connect
+    it("should connect to presigned mqtt endpoint", function(done) {
+      var mqtt = require("mqtt");
+      var presignedUrl = aws.createPresignedURL(
+        "GET",
+        process.env.MQTT_ENDPOINT,
+        "/mqtt",
+        "iotdevicegateway",
+        "",
+        {
+          protocol: "wss"
+        }
+      );
+
+      assert(presignedUrl);
+
+      var client = mqtt.connect(presignedUrl);
+      client.on("connect", function() {
+        client.end();
+        done();
+      });
+      client.on("error", done);
+    });
+  }
 });

@@ -17,6 +17,7 @@
   "author": "Robert Sköld <robert@department.se>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "mqtt": "^2.18.8"
   }
 }
