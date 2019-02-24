@@ -14,11 +14,12 @@ exports.createCanonicalRequest = function(
   pathname,
   query,
   headers,
-  payload
+  payload,
+  doubleEscape
 ) {
   return [
     method.toUpperCase(),
-    createCanonicalURI(pathname),
+    createCanonicalURI(doubleEscape?pathname.split(/\//g).map((v) => encodeURIComponent(v)).join('/'):pathname),
     exports.createCanonicalQueryString(query),
     exports.createCanonicalHeaders(headers),
     exports.createSignedHeaders(headers),
@@ -137,6 +138,7 @@ exports.createPresignedS3URL = function(name, options) {
   options.method = options.method || "GET";
   options.bucket = options.bucket || process.env.AWS_S3_BUCKET;
   options.signSessionToken = true;
+  options.doubleEscape = false;
   return exports.createPresignedURL(
     options.method,
     options.bucket + ".s3.amazonaws.com",
@@ -165,6 +167,7 @@ exports.createPresignedURL = function(
   options.expires = options.expires || 86400; // 24 hours
   options.headers = options.headers || {};
   options.signSessionToken = options.signSessionToken || false;
+  options.doubleEscape = options.doubleEscape !== undefined?options.doubleEscape:true;
 
   // host is required
   options.headers.Host = host;
@@ -190,7 +193,8 @@ exports.createPresignedURL = function(
     path,
     query,
     options.headers,
-    payload
+    payload,
+    options.doubleEscape
   );
   var stringToSign = exports.createStringToSign(
     options.timestamp,
