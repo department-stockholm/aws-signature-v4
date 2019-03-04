@@ -61,6 +61,37 @@ describe("aws-signature-v4", function() {
     );
   });
 
+  it("should generate a canonical request for websocket connection api", function() {
+    var webCanonicalRequest = aws.createCanonicalRequest(
+      "GET",
+      "/@connections",
+      {
+        "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+        "X-Amz-Credential":
+          "AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request",
+        "X-Amz-Date": "20130524T000000Z",
+        "X-Amz-SignedHeaders": "host"
+      },
+      {
+        Host: "examplebucket.s3.amazonaws.com"
+      },
+      "UNSIGNED-PAYLOAD",
+      true
+    );
+    assert.equal(
+      webCanonicalRequest,
+      [
+        "GET",
+        "/%40connections",
+        "X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20130524T000000Z&X-Amz-SignedHeaders=host",
+        "host:examplebucket.s3.amazonaws.com",
+        "",
+        "host",
+        "UNSIGNED-PAYLOAD"
+      ].join("\n")
+    );
+  });
+
   it("should generate a string to sign", function() {
     // time, region, service, request
     assert.equal(
