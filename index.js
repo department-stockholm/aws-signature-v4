@@ -19,7 +19,14 @@ exports.createCanonicalRequest = function(
 ) {
   return [
     method.toUpperCase(),
-    createCanonicalURI(doubleEscape?pathname.split(/\//g).map((v) => encodeURIComponent(v)).join('/'):pathname),
+    createCanonicalURI(
+      doubleEscape
+        ? pathname
+            .split(/\//g)
+            .map(v => encodeURIComponent(v))
+            .join("/")
+        : pathname
+    ),
     exports.createCanonicalQueryString(query),
     exports.createCanonicalHeaders(headers),
     exports.createSignedHeaders(headers),
@@ -167,7 +174,8 @@ exports.createPresignedURL = function(
   options.expires = options.expires || 86400; // 24 hours
   options.headers = options.headers || {};
   options.signSessionToken = options.signSessionToken || false;
-  options.doubleEscape = options.doubleEscape !== undefined?options.doubleEscape:true;
+  options.doubleEscape =
+    options.doubleEscape !== undefined ? options.doubleEscape : true;
 
   // host is required
   options.headers.Host = host;
